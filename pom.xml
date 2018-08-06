@@ -1222,12 +1222,12 @@
             <!-- The list of excluded files and ignored changes is configured way above, in the <plugins> section. -->
           </configuration>
         </plugin>
-        <!--plugin>
+        <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-gpg-plugin</artifactId>
-          < Lock down plugin version for build reproducibility >
+          <!--Lock down plugin version for build reproducibility -->
           <version>1.6</version>
-        </plugin-->
+        </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-javadoc-plugin</artifactId>
