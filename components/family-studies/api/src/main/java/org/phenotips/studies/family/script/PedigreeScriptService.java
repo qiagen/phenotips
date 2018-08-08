@@ -32,6 +32,7 @@ import org.phenotips.studies.family.exceptions.PTPatientAlreadyInAnotherFamilyEx
 import org.phenotips.studies.family.exceptions.PTPatientNotInFamilyException;
 import org.phenotips.studies.family.exceptions.PTPedigreeContainesSamePatientMultipleTimesException;
 import org.phenotips.studies.family.internal.DefaultPedigree;
+import org.phenotips.studies.family.internal.NewFormatPedigree;
 import org.phenotips.studies.family.script.response.AlreadyHasFamilyResponse;
 import org.phenotips.studies.family.script.response.FamilyInfoJSONResponse;
 import org.phenotips.studies.family.script.response.InternalErrorResponse;
@@ -162,12 +163,13 @@ public class PedigreeScriptService implements ScriptService
      *
      * @param familyId Phenotips family id. If null, a new family is created.
      * @param json part of the pedigree data
+     * @param simpleJson part of the pedigree data in simple JSON format
      * @param image svg part of the pedigree data
      * @return {@link JSONResponse} with 'error' field set to {@code false} if everything is ok, or {@code true} if an
      *         error has occurred. In case the linking is invalid, the JSON will also contain {@code errorMessage} and
      *         {@code errorType}. In case of success JSONResponse will be of {@link FamilyInfoJSONResponse} type
      */
-    public JSONResponse savePedigree(String familyId, String json, String image)
+    public JSONResponse savePedigree(String familyId, String json, String simpleJson, String image)
     {
         try {
             if (!this.familyTools.familyExists(familyId)) {
@@ -180,7 +182,7 @@ public class PedigreeScriptService implements ScriptService
 
             Family family = this.familyTools.getFamilyById(familyId);
 
-            JSONObject pedigreeJSON;
+            JSONObject pedigreeJSON = null;
             try {
                 pedigreeJSON = new JSONObject(json);
             } catch (JSONException ex) {
@@ -189,7 +191,15 @@ public class PedigreeScriptService implements ScriptService
 
             Pedigree pedigree = new DefaultPedigree(pedigreeJSON, image);
 
-            this.familyTools.setPedigree(family, pedigree);
+            JSONObject simplePedigreeJSON = null;
+            try {
+                String simpleJsonComplete = "{\"pedigree\":" + simpleJson + "}";
+                simplePedigreeJSON = new JSONObject(simpleJsonComplete);
+            } catch (JSONException ex) {
+                return new InvalidInputJSONResponse(simpleJson);
+            }
+            Pedigree pedigreeInSimpleJson = new NewFormatPedigree(simplePedigreeJSON, image);
+            this.familyTools.setPedigree(family, pedigree, pedigreeInSimpleJson);
 
             return new FamilyInfoJSONResponse(family);
         } catch (Exception ex) {

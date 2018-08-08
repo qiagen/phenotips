@@ -106,21 +106,21 @@
         <cache>0</cache>
         <classname/>
         <customDisplay>{{velocity}}
-#set ($patient = $services.patients.get($value))
-#if ($patient)
-  #set ($id = "$!patient.externalId")
-  #if ($id == '')
-    #set ($id = $patient.id)
-  #end
-  #set ($name = "$!{patient.getData('patientName').first_name} $!{patient.getData('patientName').last_name}")
-  #set ($name = $name.trim())
-  #set ($dob = "$!{patient.getData('dates').date_of_birth.toYYYYMMDDString()}")
-  #set ($meta = "$name#if($name != '' &amp;&amp; $dob != ''), #end$dob")
-  #set ($patientLabel = "$id#if ($meta != '') ($meta)#end")
-* [[$patientLabel&gt;&gt;$patient.document||rel="__blank"]]
-#end
-{{/velocity}}
-</customDisplay>
+          #set ($patient = $services.patients.get($value))
+          #if ($patient)
+          #set ($id = "$!patient.externalId")
+          #if ($id == '')
+          #set ($id = $patient.id)
+          #end
+          #set ($name = "$!{patient.getData('patientName').first_name} $!{patient.getData('patientName').last_name}")
+          #set ($name = $name.trim())
+          #set ($dob = "$!{patient.getData('dates').date_of_birth.toYYYYMMDDString()}")
+          #set ($meta = "$name#if($name != '' &amp;&amp; $dob != ''), #end$dob")
+          #set ($patientLabel = "$id#if ($meta != '') ($meta)#end")
+          * [[$patientLabel&gt;&gt;$patient.document||rel="__blank"]]
+          #end
+          {{/velocity}}
+        </customDisplay>
         <disabled>0</disabled>
         <displayType>input</displayType>
         <idField/>
@@ -145,12 +145,12 @@
         <cache>0</cache>
         <classname/>
         <customDisplay>{{velocity output="false"}}
-#if (!$value)
-  #set ($value = [])
-#end
-{{/velocity}}
+          #if (!$value)
+          #set ($value = [])
+          #end
+          {{/velocity}}
 
-{{include reference="PhenoTips.ImageDisplayer" /}}</customDisplay>
+          {{include reference="PhenoTips.ImageDisplayer" /}}</customDisplay>
         <disabled>0</disabled>
         <displayType>checkbox</displayType>
         <idField/>
@@ -254,6 +254,22 @@
         <validationRegExp/>
         <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
       </data>
+      <simpleJsonData>
+        <contenttype>PureText</contenttype>
+        <customDisplay/>
+        <disabled>0</disabled>
+        <editor>PureText</editor>
+        <name>simpleJsonData</name>
+        <number>4</number>
+        <picker>0</picker>
+        <prettyName>simpleJsonData</prettyName>
+        <rows>5</rows>
+        <size>40</size>
+        <unmodifiable>0</unmodifiable>
+        <validationMessage/>
+        <validationRegExp/>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </simpleJsonData>
       <description>
         <contenttype>PureText</contenttype>
         <customDisplay/>

@@ -127,4 +127,11 @@ public interface Family
      * @return Pedigree associated with the family.
      */
     Pedigree getPedigree();
+
+    /**
+     * Returns the pedigree in Simple Json associated with the family.
+     *
+     * @return Pedigree associated with the family.
+     */
+    Pedigree getPedigreeInSimpleJson();
 }

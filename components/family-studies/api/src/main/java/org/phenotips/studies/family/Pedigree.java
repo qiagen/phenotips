@@ -41,6 +41,9 @@ public interface Pedigree
     /** Code for data. **/
     String DATA = "data";
 
+    /** Code for data in simpleJSON. **/
+    String SIMPLE_JSON_DATA = "simpleJsonData";
+
     /** Code for image. **/
     String IMAGE = "image";
 

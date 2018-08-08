@@ -82,6 +82,16 @@ public class PhenotipsFamilyTools implements FamilyTools
     }
 
     @Override
+    public Family createFamilyForUser(String userName) {
+        User creator = this.userManager.getUser(userName);
+        if (this.access.hasAccess(creator, Right.EDIT,
+                this.currentResolver.resolve(Family.DATA_SPACE, EntityType.SPACE))) {
+            return this.familyRepository.createFamily(creator);
+        }
+        throw new SecurityException("User not authorized to create new families");
+    }
+
+    @Override
     public Family getFamilyById(String familyId)
     {
         Family family = this.familyRepository.getFamilyById(familyId);
@@ -220,9 +230,9 @@ public class PhenotipsFamilyTools implements FamilyTools
     }
 
     @Override
-    public void setPedigree(Family family, Pedigree pedigree) throws PTException
+    public void setPedigree(Family family, Pedigree pedigree, Pedigree pedigreeInSimpleJson) throws PTException
     {
-        this.familyRepository.setPedigree(family, pedigree, this.userManager.getCurrentUser());
+        this.familyRepository.setPedigree(family, pedigree, pedigreeInSimpleJson, this.userManager.getCurrentUser());
     }
 
     @Override

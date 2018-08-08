@@ -6,8 +6,10 @@
  */
 
 define([
+        "pedigree/model/export",
         "pedigree/model/helpers"
     ], function(
+        PedigreeExport,
         Helpers
     ){
     var SaveLoadEngine = Class.create( {
@@ -28,6 +30,17 @@ define([
 
             return JSON.stringify(jsonObject);
         },
+
+        /**
+         * Saves the state of the pedigree (including any user preferences and current color scheme)
+         *
+         * @return Serialization data for the entire graph in simple JSON format
+         */
+         serializeSimpleJSON: function() {
+             var jsonObject = JSON.parse(PedigreeExport.exportAsSimpleJSON(editor.getGraph().DG, "all"));
+
+             return JSON.stringify(jsonObject);
+         },
 
         createGraphFromSerializedData: function(JSONString, noUndo, centerAroundProband, callbackWhenDataLoaded, dataSource) {
             console.log("---- load: parsing data ----");
@@ -179,8 +192,10 @@ define([
             me._notSaved = true;
 
             var jsonData = this.serialize();
+            var simpleJsonData = this.serializeSimpleJSON();
 
             console.log("[SAVE] data: " + Helpers.stringifyObject(jsonData));
+            console.log("[SAVE] simpleJSON data: " + Helpers.stringifyObject(simpleJsonData));
 
             var svg = editor.getWorkspace().getSVGCopy();
             var svgText = svg.getSVGText();
@@ -267,7 +282,7 @@ define([
                                 'Error saving pedigree', "OK", undefined );
                     }
                 },
-                parameters: {"family_id": editor.getFamilyData().getFamilyId(), "json": jsonData, "image": svgText}
+                parameters: {"family_id": editor.getFamilyData().getFamilyId(), "json": jsonData, "simple_json": simpleJsonData, "image": svgText}
             });
         },
 

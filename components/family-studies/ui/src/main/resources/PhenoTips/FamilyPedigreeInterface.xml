@@ -73,8 +73,8 @@ $response.setContentType('application/json')##
   #end
 #elseif ("$!request.action" == "save")
   #if ("$!request.json" != '')
-    $services.pedigrees.savePedigree($request.family_id, $request.json, $request.image).toJSON()
-    ##$jsontool.serialize($services.pedigrees.savePedigree($request.family_id, $request.json, $request.image).toJSON())
+    $services.pedigrees.savePedigree($request.family_id, $request.json, $request.simple_json, $request.image).toJSON()
+    ##$jsontool.serialize($services.pedigrees.savePedigree($request.family_id, $request.json, $request.simple_json, $request.image).toJSON())
   #else
     JSON was not specified for action SAVE
   #end

@@ -280,4 +280,36 @@ public class PhenotipsFamily implements Family
         }
         return null;
     }
+
+    @Override
+    public Pedigree getPedigreeInSimpleJson()
+    {
+        BaseObject pedigreeObj = this.familyDocument.getXObject(Pedigree.CLASS_REFERENCE);
+        if (pedigreeObj != null) {
+            BaseStringProperty data = null;
+            BaseStringProperty image = null;
+
+            try {
+                data = (BaseStringProperty) pedigreeObj.get(Pedigree.SIMPLE_JSON_DATA);
+                image = (BaseStringProperty) pedigreeObj.get(Pedigree.IMAGE);
+
+                if (StringUtils.isNotBlank(data.toText())) {
+                    // internally pedigree may be stored in either "old internal" or "simpleJSON" format
+                    // for now simpleJSON may only be stored after a migration, and some of the
+                    // methods
+                    JSONObject pedigreeJSON = new JSONObject(data.toText());
+                    if (pedigreeJSON != null) {
+                        return new NewFormatPedigree(pedigreeJSON, image.toText());
+                    }
+                }
+            } catch (XWikiException e) {
+                this.logger.error("Error reading data from pedigree: [{}]", e.getMessage(), e);
+            } catch (IllegalArgumentException e) {
+                this.logger.error("Incorrect pedigree data: [{}]", e.getMessage(), e);
+            } catch (JSONException e) {
+                this.logger.error("Pedigree data is not a valid pedigree JSON: [{}]", e.getMessage(), e);
+            }
+        }
+        return null;
+    }
 }

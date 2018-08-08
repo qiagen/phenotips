@@ -42,6 +42,14 @@ public interface FamilyTools
     Family createFamily();
 
     /**
+     * Creates an empty family.
+     *
+     * @param userName the user name
+     * @return Family object corresponding to the newly created family for the specified user.
+     */
+    Family createFamilyForUser(String userName);
+
+    /**
      * Checks if a family with the given identifier exists, but does not check access rights.
      *
      * @param familyId family internal identifier
@@ -151,7 +159,8 @@ public interface FamilyTools
      *
      * @param family the family
      * @param pedigree to set
+     * @param pedigreeInSimpleJson to set
      * @throws PTException when the family could not be correctly and fully updated using the given pedigree
      */
-    void setPedigree(Family family, Pedigree pedigree) throws PTException;
+    void setPedigree(Family family, Pedigree pedigree, Pedigree pedigreeInSimpleJson) throws PTException;
 }

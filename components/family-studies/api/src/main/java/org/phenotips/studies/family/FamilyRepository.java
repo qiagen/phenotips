@@ -101,10 +101,12 @@ public interface FamilyRepository
      *
      * @param family the family
      * @param pedigree to set
+     * @param pedigreeInSimpleJson to set
      * @param updatingUser right checks are done for this user
      * @throws PTException when the family could not be correctly and fully updated using the given pedigree
      */
-    void setPedigree(Family family, Pedigree pedigree, User updatingUser) throws PTException;
+    void setPedigree(Family family, Pedigree pedigree, Pedigree pedigreeInSimpleJson, User updatingUser)
+            throws PTException;
 
     /**
      * Checks of the given user can add the given patient to the given family.

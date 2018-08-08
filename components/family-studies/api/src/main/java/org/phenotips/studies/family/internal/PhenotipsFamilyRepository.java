@@ -338,9 +338,10 @@ public class PhenotipsFamilyRepository implements FamilyRepository
 
         // Remove patient from the pedigree
         Pedigree pedigree = family.getPedigree();
+        Pedigree pedigreeInSimpleJSon = family.getPedigreeInSimpleJson();
         if (pedigree != null) {
             pedigree.removeLink(patientId);
-            if (!this.setPedigreeObject(family, pedigree, context)) {
+            if (!this.setPedigreeObject(family, pedigree, pedigreeInSimpleJSon, context)) {
                 this.logger.error("Could not remove patient [{}] from pedigree from the family [{}]",
                     patientId, family.getId());
                 throw new PTInternalErrorException();
@@ -471,7 +472,8 @@ public class PhenotipsFamilyRepository implements FamilyRepository
     }
 
     @Override
-    public synchronized void setPedigree(Family family, Pedigree pedigree, User updatingUser) throws PTException
+    public synchronized void setPedigree(Family family, Pedigree pedigree, Pedigree pedigreeInSimpleJson,
+                                         User updatingUser) throws PTException
     {
         // note: whenever available, internal versions of helper methods are used which modify the
         // family document but do not save it to disk
@@ -495,7 +497,7 @@ public class PhenotipsFamilyRepository implements FamilyRepository
 
         boolean firstPedigree = (family.getPedigree() == null);
 
-        this.setPedigreeObject(family, pedigree, context);
+        this.setPedigreeObject(family, pedigree, pedigreeInSimpleJson, context);
 
         // Removed members who are no longer in the family
         List<String> patientsToRemove = new LinkedList<>();
@@ -585,7 +587,8 @@ public class PhenotipsFamilyRepository implements FamilyRepository
         return null;
     }
 
-    private boolean setPedigreeObject(Family family, Pedigree pedigree, XWikiContext context)
+    private boolean setPedigreeObject(Family family, Pedigree pedigree,
+                                      Pedigree pedigreeInSimpleJson, XWikiContext context)
     {
         if (pedigree == null) {
             this.logger.error("Can not set NULL pedigree for family [{}]", family.getId());
@@ -595,6 +598,8 @@ public class PhenotipsFamilyRepository implements FamilyRepository
         BaseObject pedigreeObject = family.getDocument().getXObject(Pedigree.CLASS_REFERENCE);
         pedigreeObject.set(Pedigree.IMAGE, ((pedigree == null) ? "" : pedigree.getImage(null)), context);
         pedigreeObject.set(Pedigree.DATA, ((pedigree == null) ? "" : pedigree.getData().toString()), context);
+        pedigreeObject.set(Pedigree.SIMPLE_JSON_DATA,
+                ((pedigree == null) ? "" : pedigreeInSimpleJson.getData().toString()), context);
 
         // update proband ID every time pedigree is changed
         BaseObject familyClassObject = family.getDocument().getXObject(Family.CLASS_REFERENCE);
@@ -603,7 +608,7 @@ public class PhenotipsFamilyRepository implements FamilyRepository
             if (!StringUtils.isEmpty(probandId)) {
                 Patient patient = this.patientRepository.get(probandId);
                 familyClassObject.setStringValue("proband_id", (patient == null) ? "" : patient.getDocument()
-                    .toString());
+                        .toString());
             } else {
                 familyClassObject.setStringValue("proband_id", "");
             }
