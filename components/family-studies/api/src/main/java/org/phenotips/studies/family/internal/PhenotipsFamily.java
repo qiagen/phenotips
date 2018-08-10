@@ -293,7 +293,7 @@ public class PhenotipsFamily implements Family
                 data = (BaseStringProperty) pedigreeObj.get(Pedigree.SIMPLE_JSON_DATA);
                 image = (BaseStringProperty) pedigreeObj.get(Pedigree.IMAGE);
 
-                if (StringUtils.isNotBlank(data.toText())) {
+                if (data != null && StringUtils.isNotBlank(data.toText())) {
                     // internally pedigree may be stored in either "old internal" or "simpleJSON" format
                     // for now simpleJSON may only be stored after a migration, and some of the
                     // methods
