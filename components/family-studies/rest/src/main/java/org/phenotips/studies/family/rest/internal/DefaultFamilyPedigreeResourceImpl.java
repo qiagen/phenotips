@@ -28,6 +28,8 @@ import org.phenotips.studies.family.rest.FamilyPedigreeResource;
 
 import org.xwiki.component.annotation.Component;
 import org.xwiki.model.EntityType;
+import org.xwiki.model.reference.DocumentReference;
+import org.xwiki.model.reference.DocumentReferenceResolver;
 import org.xwiki.model.reference.EntityReference;
 import org.xwiki.model.reference.EntityReferenceResolver;
 import org.xwiki.rest.XWikiResource;
@@ -85,22 +87,39 @@ public class DefaultFamilyPedigreeResourceImpl extends XWikiResource implements 
     @Named("current")
     private EntityReferenceResolver<EntityReference> currentResolver;
 
+    /** Parses string representations of document references into proper references. */
+    @Inject
+    @Named("current")
+    private DocumentReferenceResolver<String> stringResolver;
+
     @Override
-    public Response getFamilyPedigreeInJSON(String id)
+    public Response getFamilyPedigreeInJSON(String id, String userName)
     {
         this.logger.warn("Retrieving family pedigree in JSON [{}] via REST", id);
-        Pedigree pedigree = getFamilyPedigree(id);
-        JSONObject json = pedigree.getData();
-        return Response.ok(json, MediaType.APPLICATION_JSON_TYPE).build();
+        User theUser = this.users.getUser(userName);
+        if (hasViewRights(id, theUser)) {
+            Pedigree pedigree = getFamilyPedigree(id);
+            JSONObject json = pedigree.getData();
+            return Response.ok(json, MediaType.APPLICATION_JSON_TYPE).build();
+        } else {
+            // Not authorized to access the pedigree
+            return Response.status(401).build();
+        }
     }
 
     @Override
-    public Response getFamilyPedigreeInSVG(String id)
+    public Response getFamilyPedigreeInSVG(String id, String userName)
     {
         this.logger.warn("Retrieving family pedigree in SVG [{}] via REST", id);
-        Pedigree pedigree = getFamilyPedigree(id);
-        String svg = pedigree.getImage(pedigree.getProbandId());
-        return Response.ok(svg, MediaType.APPLICATION_SVG_XML).build();
+        User theUser = this.users.getUser(userName);
+        if (hasViewRights(id, theUser)) {
+            Pedigree pedigree = getFamilyPedigree(id);
+            String svg = pedigree.getImage(pedigree.getProbandId());
+            return Response.ok(svg, MediaType.APPLICATION_SVG_XML).build();
+        } else {
+            // Not authorized to access the pedigree
+            return Response.status(401).build();
+        }
     }
 
     @Override
@@ -141,6 +160,15 @@ public class DefaultFamilyPedigreeResourceImpl extends XWikiResource implements 
             return null;
         }
         return family.getPedigreeInSimpleJson();
+    }
+
+    private boolean hasViewRights(String familyID, User user)
+    {
+        DocumentReference doc = this.stringResolver.resolve(String.valueOf(familyID), Family.DATA_SPACE);
+        if (!this.access.hasAccess(user, Right.VIEW, doc)) {
+            return false;
+        }
+        return true;
     }
 }
 

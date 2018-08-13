@@ -40,12 +40,13 @@ public interface FamilyPedigreeResource
      * the target family record, an error is returned.
      *
      * @param id the family's internal identifier, see {@link org.phenotips.studies.family.Family#getId()}
+     * @param userName the username who creates the family
      * @return the JSON representation of the requested family, or a status message in case of error
      */
-    @Path("/{entity-id}/inJSON")
+    @Path("/{entity-id}/inJSON/{user-name}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    Response getFamilyPedigreeInJSON(@PathParam("entity-id") String id);
+    Response getFamilyPedigreeInJSON(@PathParam("entity-id") String id, @PathParam("user-name") String userName);
 
     /**
      * Retrieve a family pedigree, identified by its internal PhenoTips identifier, in its SVG-XML representation.
@@ -53,12 +54,13 @@ public interface FamilyPedigreeResource
      * the target family record, an error is returned.
      *
      * @param id the family's internal identifier, see {@link org.phenotips.studies.family.Family#getId()}
+     * @param userName the username who creates the family
      * @return the SVG-XML representation of the requested family, or a status message in case of error
      */
-    @Path("/{entity-id}/inSVG")
+    @Path("/{entity-id}/inSVG/{user-name}")
     @GET
     @Produces(MediaType.APPLICATION_XML)
-    Response getFamilyPedigreeInSVG(@PathParam("entity-id") String id);
+    Response getFamilyPedigreeInSVG(@PathParam("entity-id") String id, @PathParam("user-name") String userName);
 
     /**
      * Create a new family record owned by the user.
