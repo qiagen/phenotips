@@ -40,7 +40,7 @@
     <module>war</module>
     <module>standalone</module>
     <module>dmg</module>
-      <module>offline-extension-repo</module>
+      <!--module>offline-extension-repo</module-->
   </modules>
 
   <profiles>
