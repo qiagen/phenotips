@@ -76,13 +76,13 @@ public class XWikiServletResponse implements XWikiResponse
             LOGGER.warn("Possible HTTP Response Splitting attack, attempting to redirect to [{}]", redirect);
             return;
         }
-/*        if (redirect.matches("[a-z0-9]+://.*")) {
+        if (redirect.matches("[a-z0-9]+://.*")) {
             // Full URL, check that the hostname matches
             if (!redirect.matches("[a-z0-9]+://" + Utils.getContext().getRequest().getServerName() + "[:/].*")) {
                 LOGGER.warn("Possible phishing attack, attempting to redirect to [{}]", redirect);
                 return;
             }
-        }*/
+        }
         this.httpStatus = SC_FOUND;
         this.response.sendRedirect(redirect);
     }
