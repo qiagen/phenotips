@@ -129,6 +129,31 @@
     </init-param>
   </filter>
 
+  <filter>
+    <filter-name>Set CORS policy for APIs</filter-name>
+    <filter-class>org.xwiki.container.servlet.filters.internal.SetHTTPHeaderFilter</filter-class>
+    <init-param>
+      <param-name>name</param-name>
+      <param-value>Access-Control-Allow-Origin</param-value>
+    </init-param>
+    <init-param>
+      <param-name>value</param-name>
+      <param-value>http://localhost:8195</param-value>
+    </init-param>
+  </filter>
+  <filter>
+    <filter-name>Set CORS credentials policy for APIs</filter-name>
+    <filter-class>org.xwiki.container.servlet.filters.internal.SetHTTPHeaderFilter</filter-class>
+    <init-param>
+      <param-name>name</param-name>
+      <param-value>Access-Control-Allow-Credentials</param-value>
+    </init-param>
+    <init-param>
+      <param-name>value</param-name>
+      <param-value>true</param-value>
+    </init-param>
+  </filter>
+
   <!-- All URLs must be considered for rewriting, the filter has its own configuration for deciding which URLs to process -->
   <filter-mapping>
     <filter-name>UrlRewriteFilter</filter-name>
@@ -203,6 +228,16 @@
   <filter-mapping>
     <filter-name>Set CORS policy for fonts</filter-name>
     <url-pattern>*.ttf</url-pattern>
+  </filter-mapping>
+
+  <filter-mapping>
+    <filter-name>Set CORS policy for APIs</filter-name>
+    <url-pattern>/rest/*</url-pattern>
+  </filter-mapping>
+
+  <filter-mapping>
+    <filter-name>Set CORS credentials policy for APIs</filter-name>
+    <url-pattern>/rest/*</url-pattern>
   </filter-mapping>
 
   <!-- Initializes XWiki -->

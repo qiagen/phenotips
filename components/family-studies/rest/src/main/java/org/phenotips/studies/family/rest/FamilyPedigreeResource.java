@@ -43,7 +43,7 @@ public interface FamilyPedigreeResource
      * @param userName the username who creates the family
      * @return the JSON representation of the requested family, or a status message in case of error
      */
-    @Path("/{entity-id}/inJSON/{user-name}")
+    @Path("/{entity-id}/{user-name}.json")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     Response getFamilyPedigreeInJSON(@PathParam("entity-id") String id, @PathParam("user-name") String userName);
@@ -57,9 +57,9 @@ public interface FamilyPedigreeResource
      * @param userName the username who creates the family
      * @return the SVG-XML representation of the requested family, or a status message in case of error
      */
-    @Path("/{entity-id}/inSVG/{user-name}")
+    @Path("/{entity-id}/{user-name}.svg")
     @GET
-    @Produces(MediaType.APPLICATION_XML)
+    @Produces(MediaType.APPLICATION_SVG_XML)
     Response getFamilyPedigreeInSVG(@PathParam("entity-id") String id, @PathParam("user-name") String userName);
 
     /**
@@ -71,6 +71,41 @@ public interface FamilyPedigreeResource
     @Path("/create/{user_name}")
     @POST
     Response createFamily(@PathParam("user_name") String userName);
+
+    /**
+     * Retrieve a family pedigree record, identified by its internal PhenoTips identifier, in its JSON representation.
+     * If the indicated family record doesn't exist, or if the user sending the request doesn't have the right to view
+     * the target family record, an error is returned.
+     *
+     * @param id the family's internal identifier, see {@link org.phenotips.studies.family.Family#getId()}
+     * @return the JSON representation of the requested family, or a status message in case of error
+     */
+    @Path("/{entity-id}.json")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    Response getFamilyPedigreeJsonForCurrentUser(@PathParam("entity-id") String id);
+
+    /**
+     * Retrieve a family pedigree, identified by its internal PhenoTips identifier, in its SVG-XML representation.
+     * If the indicated family record doesn't exist, or if the user sending the request doesn't have the right to view
+     * the target family record, an error is returned.
+     *
+     * @param id the family's internal identifier, see {@link org.phenotips.studies.family.Family#getId()}
+     * @return the SVG-XML representation of the requested family, or a status message in case of error
+     */
+    @Path("/{entity-id}.svg")
+    @GET
+    @Produces("image/svg+xml")
+    Response getFamilyPedigreeSvgForCurrentUser(@PathParam("entity-id") String id);
+
+    /**
+     * Create a new family record owned by the user.
+     *
+     * @return the id of the newly created family if the operation was successful, or an error report otherwise
+     */
+    @Path("/create")
+    @POST
+    Response createFamily();
 
 }
 
