@@ -896,6 +896,14 @@
           </overlays>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <configuration>
+          <descriptor>tar.xml</descriptor>
+          <finalName>phenotips-war-${project.version}</finalName>
+        </configuration>
+      </plugin>
       <!-- Ensure that some modules are not added as dependencies. -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
