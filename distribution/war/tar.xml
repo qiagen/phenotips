@@ -14,4 +14,11 @@
       <include>*</include>
     </includes>
   </fileSet>
+  <fileSet>
+    <directory>target/tomcat</directory>
+    <outputDirectory>tomcat</outputDirectory>
+    <includes>
+      <include>*</include>
+    </includes>
+  </fileSet>
 </fileSets>
