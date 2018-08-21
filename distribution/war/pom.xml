@@ -851,7 +851,26 @@
       <artifactId>family-studies-rest</artifactId>
       <version>${project.version}</version>
     </dependency>
+    <plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>wagon-maven-plugin</artifactId>
+					<version>1.0-beta-3</version>
 
+					<executions>
+						<execution>
+							<id>download_tomcat</id>
+							<phase>package</phase>
+							<goals>
+								<goal>download-single</goal>
+							</goals>
+							<configuration>
+								<url>http://releases.ingenuity.com</url>
+								<fromFile>repository/containers/tomcat70_82.tgz</fromFile>
+								<toDir>${project.build.directory}/tomcat</toDir>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
     <!-- Add dependencies on the XAR distributions so that we transitively include all JAR dependencies in the generated WAR -->
     <dependency>
       <groupId>${project.groupId}</groupId>
