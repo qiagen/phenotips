@@ -902,7 +902,7 @@
         <artifactId>maven-assembly-plugin</artifactId>
         <configuration>
           <descriptor>tar.xml</descriptor>
-          <finalName>phenotips-war-${project.version}</finalName>
+          <finalName>phenotips_war-${project.version}</finalName>
         </configuration>
         <executions>
           <execution>
