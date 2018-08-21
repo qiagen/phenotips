@@ -1,0 +1,17 @@
+<formats>
+  <format>tar.gz</format>
+</formats>
+<fileSets>
+  <fileSet>
+    <includes>
+      <include>target/phenotips-war-*/*</include>
+    </includes>
+  </fileSet>
+  <fileSet>
+    <directory>setup</directory>
+    <outputDirectory>setup</outputDirectory>
+    <includes>
+      <include>*</include>
+    </includes>
+  </fileSet>
+</fileSets>
