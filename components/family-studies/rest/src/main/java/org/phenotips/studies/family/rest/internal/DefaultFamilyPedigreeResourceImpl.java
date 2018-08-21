@@ -97,14 +97,7 @@ public class DefaultFamilyPedigreeResourceImpl extends XWikiResource implements 
     {
         this.logger.warn("Retrieving family pedigree in JSON [{}] via REST", id);
         User theUser = this.users.getUser(userName);
-        if (hasViewRights(id, theUser)) {
-            Pedigree pedigree = getFamilyPedigree(id);
-            JSONObject json = pedigree.getData();
-            return Response.ok(json, MediaType.APPLICATION_JSON_TYPE).build();
-        } else {
-            // Not authorized to access the pedigree
-            return Response.status(401).build();
-        }
+        return getJson(id, theUser);
     }
 
     @Override
@@ -112,14 +105,7 @@ public class DefaultFamilyPedigreeResourceImpl extends XWikiResource implements 
     {
         this.logger.warn("Retrieving family pedigree in SVG [{}] via REST", id);
         User theUser = this.users.getUser(userName);
-        if (hasViewRights(id, theUser)) {
-            Pedigree pedigree = getFamilyPedigree(id);
-            String svg = pedigree.getImage(pedigree.getProbandId());
-            return Response.ok(svg, MediaType.APPLICATION_SVG_XML).build();
-        } else {
-            // Not authorized to access the pedigree
-            return Response.status(401).build();
-        }
+        return getSvg(id, theUser);
     }
 
     @Override
@@ -143,6 +129,26 @@ public class DefaultFamilyPedigreeResourceImpl extends XWikiResource implements 
             this.logger.error("Could not process family creation request: {}", ex.getMessage(), ex);
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
+    }
+
+    @Override
+    public Response getFamilyPedigreeJsonForCurrentUser(String id)
+    {
+        this.logger.warn("Retrieving family pedigree in JSON [{}] via REST for current user", id);
+        return getJson(id, this.users.getCurrentUser());
+    }
+
+    @Override
+    public Response getFamilyPedigreeSvgForCurrentUser(String id)
+    {
+        this.logger.warn("Retrieving family pedigree in SVG [{}] via REST for current user", id);
+        return getSvg(id, this.users.getCurrentUser());
+    }
+
+    @Override
+    public Response createFamily()
+    {
+        return createFamilyForCurrentUser();
     }
 
     private Pedigree getFamilyPedigree(String id)
@@ -169,6 +175,41 @@ public class DefaultFamilyPedigreeResourceImpl extends XWikiResource implements 
             return false;
         }
         return true;
+    }
+
+    private Response getJson(String id, User user) {
+        if (hasViewRights(id, user)) {
+            Pedigree pedigree = getFamilyPedigree(id);
+            JSONObject json = pedigree.getData();
+            return Response.ok(json, MediaType.APPLICATION_JSON_TYPE).build();
+        } else {
+            // Not authorized to access the pedigree
+            return Response.status(401).build();
+        }
+    }
+
+    private Response getSvg(String id, User user) {
+        this.logger.warn("Retrieving family pedigree in SVG [{}] via REST", id);
+        if (hasViewRights(id, user)) {
+            Pedigree pedigree = getFamilyPedigree(id);
+            String svg = pedigree.getImage(pedigree.getProbandId());
+            return Response.ok(svg, "image/svg+xml").build();
+        } else {
+            // Not authorized to access the pedigree
+            return Response.status(401).build();
+        }
+    }
+
+    private Response createFamilyForCurrentUser() {
+        try {
+            Family family = this.familyTools.createFamily();
+            JSONObject response = new JSONObject();
+            response.put("familyId", family.getId());
+            return Response.ok(response, MediaType.APPLICATION_JSON_TYPE).build();
+        } catch (Exception ex) {
+            this.logger.error("Could not process family creation request: {}", ex.getMessage(), ex);
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
     }
 }
 
