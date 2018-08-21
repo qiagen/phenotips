@@ -231,7 +231,8 @@
     </dependency>
     <dependency>
       <groupId>org.xwiki.platform</groupId>
-      <artifactId>xwiki-platform-rendering-macro-useravatar</artifactId>
+      <artifactId>xwiki-platform-rendering-macro-userava
+      </artifactId>
       <version>${xwiki.version}</version>
       <scope>runtime</scope>
     </dependency>
@@ -903,6 +904,15 @@
           <descriptor>tar.xml</descriptor>
           <finalName>phenotips-war-${project.version}</finalName>
         </configuration>
+        <executions>
+          <execution>
+            <id>create-archive</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
       <!-- Ensure that some modules are not added as dependencies. -->
       <plugin>
