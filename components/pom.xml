@@ -35,9 +35,7 @@
     <version>7.1.4</version>
     <type>xar</type>
 </dependency>
-    <properties>
-	<platform.version>7.1.4</platform.version>
-</properties>
+    
 <!-- Main Wiki UI -->
 <dependency>
     <groupId>org.xwiki.enterprise</groupId>
