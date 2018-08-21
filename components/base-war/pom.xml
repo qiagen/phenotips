@@ -332,9 +332,9 @@
               </resourceBundles>
               <properties>
                 <xwikiDb>oracle</xwikiDb>
-                <xwikiDbConnectionUrl>jdbc:oracle:thin:@(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=scan-eng)(PORT=1537))(sdu=8760)(LOAD_BALANCE=yes)(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=EIVA)))</xwikiDbConnectionUrl>
-                <xwikiDbConnectionUsername>phenotips</xwikiDbConnectionUsername>
-                <xwikiDbConnectionPassword>phenotips</xwikiDbConnectionPassword>
+                <xwikiDbConnectionUrl>dummy</xwikiDbConnectionUrl>
+                <xwikiDbConnectionUsername>dummy</xwikiDbConnectionUsername>
+                <xwikiDbConnectionPassword>dummy</xwikiDbConnectionPassword>
                 <xwikiDbConnectionDriverClass>oracle.jdbc.driver.OracleDriver</xwikiDbConnectionDriverClass>
                 <xwikiDbDialect>org.hibernate.dialect.Oracle10gDialect</xwikiDbDialect>
                 <xwikiDbHbmXwiki>xwiki.hbm.xml</xwikiDbHbmXwiki>
@@ -379,25 +379,24 @@ xwiki.monitor=0
 xwiki.store.attachment.hint=file
 xwiki.store.attachment.versioning.hint=file
 xwiki.store.attachment.recyclebin.hint=file
-xwiki.db=phenotips
+xwiki.db=dummy
 xwiki.authentication.authclass=org.xwiki.contrib.authentication.cas.XWikiCASAuthenticator
-xwiki.authentication.cas.server=https://apps-stable.ingenuity.com/ingsso
+xwiki.authentication.cas.server=dummy
 xwiki.authentication.cas.protocol=CAS20
 xwiki.authentication.cas.fields_mapping=last_name=lastName,first_name=firstName
 xwiki.authentication.cas.create_user=1
 xwiki.authentication.cas.update_user=1
 xwiki.authentication.cas.access_denied_page=/bin/view/XWiki/XWikiCASAuthFailed
                 </xwikiCfgAdditionalProperties>
-                <xwikiPropertiesEnvironmentPermanentDirectory>/var/lib/phenotips/</xwikiPropertiesEnvironmentPermanentDirectory>
+                <xwikiPropertiesEnvironmentPermanentDirectory>dummy</xwikiPropertiesEnvironmentPermanentDirectory>
                 <xwikiPropertiesAdditionalProperties>
 model.reference.default.space=data
-#extension.repositories=maven-central:maven:https://nexus.phenotips.org/nexus/content/groups/public/
-#extension.repositories=maven-phenotips:maven:https://nexus.phenotips.org/nexus/content/repositories/releases/
-#extension.repositories=phenotips.org:xwiki:https://phenotips.org/rest/
-extension.repositories=local:maven:file://Users/wanghu/.m2/repository
+extension.repositories=maven-central:maven:dummy
+extension.repositories=maven-phenotips:maven:dummy
+extension.repositories=phenotips.org:xwiki:dummy
 rendering.transformations=macro
-activeinstalls.pingURL=https://stats.phenotips.org
-activeinstalls.ipFetchURL=https://phenotips.org/get/Stats/Id
+#activeinstalls.pingURL=https://stats.phenotips.org
+#activeinstalls.ipFetchURL=https://phenotips.org/get/Stats/Id
                 </xwikiPropertiesAdditionalProperties>
               </properties>
             </configuration>
