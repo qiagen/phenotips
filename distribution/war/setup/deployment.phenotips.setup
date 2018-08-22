@@ -1,1 +1,71 @@
+#!/bin/bash
+#$Id$
 
+function fixGraylogProps
+{
+        sed "s/HoSt/"$_HOST"/g;s/EnViRoNmEnT/"$_ENV"/g" $1 > $1.new
+        rm $1 -f
+        mv $1.new $1
+
+}
+
+_HOST=`hostname`
+_ENV=`cat web/WEB-INF/classes/phenotipsbuild-config.properties | grep "^graylog_env" | cut -d'=' -f2`
+
+
+PATH=$PATH:/opt/sfw/bin
+export PATH
+
+PATH=$PATH:/usr/bin:/usr/local/bin:/bin
+export PATH
+
+chmod 755 $releasedir/bin/*.sh
+mkdir -p $releasedir/tomcat
+mkdir -p $releasedir/tomcat/conf/Catalina/localhost/
+
+dos2unix $releasedir/bin/* $releasedir/web/WEB-INF/*.properties $releasedir/web/WEB-INF/*.xml
+
+cd $releasedir/tomcat
+
+NUM_TOMCAT_BUNDLES=`ls -1 -f $releasedir/tomcat/*.tgz | wc -l`
+if [ $NUM_TOMCAT_BUNDLES -ne 1 ]
+then
+   echo "Error: more than 1 tomcat bundles found ... exiting"
+   exit 1
+else
+   TOMCAT_VERSION=`find $releasedir/tomcat/ -name tomcat\*.tgz`
+
+   tar zxf $TOMCAT_VERSION
+   rm $TOMCAT_VERSION
+
+   chmod 755 $releasedir/tomcat/bin/*.sh
+
+
+   rm $releasedir/tomcat/conf/Catalina/localhost/*
+   cp $releasedir/setup/phenotips.xml  $releasedir/tomcat/conf/Catalina/localhost/
+
+fi
+
+rm -f $releasedir/web/WEB-INF/lib/servlet-api*.jar
+
+HOSTNAME=`hostname`
+perl -p -i -e"s/jvm1/$HOSTNAME/g" $releasedir/tomcat/conf/server.xml
+
+#copy ecj*.jar from app lib to tomcat lib
+
+if [ `ls $releasedir/web/WEB-INF/lib/ecj-*.jar | wc -l` -eq 1 ]
+then
+   echo "moving ecj*.jar file from app to tomcat lib"
+   rm $releasedir/tomcat/lib/ecj-*.jar > /dev/null 2> /dev/null
+   mv $releasedir/web/WEB-INF/lib/ecj-*.jar $releasedir/tomcat/lib/ > /dev/null 2> /dev/null
+fi
+
+# remove logs...
+mkdir -p /usr/local/ingenuity/logs/phenotips/backup
+rm -rf /usr/local/ingenuity/logs/phenotips/backup/*
+mv /usr/local/ingenuity/logs/phenotips/* /usr/local/ingenuity/logs/phenotips/backup/ 2> /dev/null
+mkdir -p /usr/local/ingenuity/logs/phenotips/temp
+
+#CONFIG_FILE=$2
+#export CONFIG_FILE
+#CONFIG=`dirname $CONFIG_FILE`
