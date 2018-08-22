@@ -922,7 +922,7 @@
         <configuration>
 	<descriptors>
           <descriptor>tar.xml</descriptor>
-	<descriptors>	
+	</descriptors>	
           <finalName>phenotips-${project.version}</finalName>
         </configuration>
         <executions>
