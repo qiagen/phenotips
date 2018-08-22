@@ -231,8 +231,7 @@
     </dependency>
     <dependency>
       <groupId>org.xwiki.platform</groupId>
-      <artifactId>xwiki-platform-rendering-macro-userava
-      </artifactId>
+      <artifactId>xwiki-platform-rendering-macro-useravatar</artifactId>
       <version>${xwiki.version}</version>
       <scope>runtime</scope>
     </dependency>
