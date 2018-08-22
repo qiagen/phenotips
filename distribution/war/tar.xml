@@ -5,8 +5,10 @@
 </formats>
 <fileSets>
   <fileSet>
+    <directory>target</directory>
+    <outputDirectory>.</outputDirectory>
     <includes>
-      <include>target/phenotips-war-*/*</include>
+      <include>target/phenotips-war-*/**/**/**/**/*</include>
     </includes>
   </fileSet>
   <fileSet>
