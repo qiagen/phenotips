@@ -6,9 +6,9 @@
 <fileSets>
   <fileSet>
     <directory>target</directory>
-    <outputDirectory>.</outputDirectory>
+    <outputDirectory>/</outputDirectory>
     <includes>
-      <include>target/phenotips-war-*/**/**/**/**/*</include>
+      <include>phenotips-war-*/**/**/**/**/*</include>
     </includes>
   </fileSet>
   <fileSet>
