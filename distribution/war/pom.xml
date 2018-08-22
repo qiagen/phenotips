@@ -851,7 +851,18 @@
       <artifactId>family-studies-rest</artifactId>
       <version>${project.version}</version>
     </dependency>
-    <plugin>
+    
+    <!-- Add dependencies on the XAR distributions so that we transitively include all JAR dependencies in the generated WAR -->
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>phenotips-ui</artifactId>
+      <version>${project.version}</version>
+      <type>xar</type>
+    </dependency>
+  </dependencies>
+  <build>
+    <plugins>
+	    <plugin>
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>wagon-maven-plugin</artifactId>
 					<version>1.0-beta-3</version>
@@ -871,16 +882,6 @@
 						</execution>
 					</executions>
 				</plugin>
-    <!-- Add dependencies on the XAR distributions so that we transitively include all JAR dependencies in the generated WAR -->
-    <dependency>
-      <groupId>${project.groupId}</groupId>
-      <artifactId>phenotips-ui</artifactId>
-      <version>${project.version}</version>
-      <type>xar</type>
-    </dependency>
-  </dependencies>
-  <build>
-    <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-war-plugin</artifactId>
