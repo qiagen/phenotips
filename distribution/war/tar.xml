@@ -10,7 +10,6 @@
     <includes>
       <include>phenotips-war-*/**/**/**/**/*</include>
     </includes>
-    <includeBaseDirectory>false</includeBaseDirectory>
   </fileSet>
   <fileSet>
     <directory>setup</directory>
