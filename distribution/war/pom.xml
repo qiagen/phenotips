@@ -26,6 +26,7 @@
     <version>137.1-SNAPSHOT</version>
   </parent>
   <artifactId>phenotips-war</artifactId>
+  <version>137.1</version>
   <name>PhenoTips - War package</name>
   <packaging>war</packaging>
   <properties>
