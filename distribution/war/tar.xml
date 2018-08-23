@@ -7,7 +7,7 @@
 <fileSets>
   <fileSet>
     <directory>target/phenotips-war/</directory>
-    <outputDirectory>/</outputDirectory>
+    <outputDirectory>web</outputDirectory>
     <includes>
       <include>**</include>
     </includes>
