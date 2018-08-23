@@ -925,7 +925,7 @@
           <descriptor>tar.xml</descriptor>
 	</descriptors>
           <appendAssemblyId>false</appendAssemblyId>		
-          <finalName>phenotips-${project.version}</finalName>
+          <finalName>phenotips-137.1.${BUILD_NUMBER}</finalName>
         </configuration>
         <executions>
           <execution>
