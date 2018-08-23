@@ -5,11 +5,12 @@
 </formats>
 <fileSets>
   <fileSet>
-    <directory>target/phenotips-war-*/*</directory>
+    <directory>target/</directory>
     <outputDirectory>/</outputDirectory>
-    <!--includes>
-      <include>/**/**/**/**/*</include>
-    </includes-->
+    <includes>
+      <include>phenotips-war-*/**/**/**/**/*</include>
+    </includes>
+    <includeBaseDirectory>false</includeBaseDirectory>
   </fileSet>
   <fileSet>
     <directory>setup</directory>
