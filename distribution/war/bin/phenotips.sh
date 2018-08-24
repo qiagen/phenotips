@@ -50,11 +50,10 @@ function killpid () {
         fi
 }
 
-TEMPMAXMEM=`grep phenotipsapp.maxmem $PHENOTIPS_HOME/web/WEB-INF/classes/phenotipsbuild-config.properties |grep -v ^# | cut -d'=' -f2- `
-TEMPMINMEM=`grep phenotipsapp.minmem $PHENOTIPS_HOME/web/WEB-INF/classes/phenotipsbuild-config.properties |grep -v ^# | cut -d'=' -f2- `
-TEMPPERMGENMAXMEM=`grep phenotipsapp.permgenmaxmem $PHENOTIPS_HOME/web/WEB-INF/classes/phenotipsbuild-config.properties |grep -v ^# | cut -d'=' -f2- `
-INSTALLENV=`grep install.env $PHENOTIPS_HOME/web/WEB-INF/classes/phenotipsbuild-config.properties |grep -v ^# | cut -d'=' -f2- `
-ENABLE_ASSERTIONS=`grep enable.assertions $PHENOTIPS_HOME/web/WEB-INF/classes/phenotipsbuild-config.properties |grep -v ^# | cut -d'=' -f2- `
+TEMPMAXMEM=`grep phenotipsapp.maxmem $PHENOTIPS_HOME/setup/phenotipsbuild-config.properties |grep -v ^# | cut -d'=' -f2- `
+TEMPMINMEM=`grep phenotipsapp.minmem $PHENOTIPS_HOME/setup/phenotipsbuild-config.properties |grep -v ^# | cut -d'=' -f2- `
+TEMPPERMGENMAXMEM=`grep phenotipsapp.permgenmaxmem $PHENOTIPS_HOME/setup/phenotipsbuild-config.properties |grep -v ^# | cut -d'=' -f2- `
+INSTALLENV=`grep install.env $PHENOTIPS_HOME/setup/phenotipsbuild-config.properties |grep -v ^# | cut -d'=' -f2- `
 
 if [ -n "$TEMPMAXMEM" ]
 then
@@ -75,19 +74,13 @@ else
         PERMGENMAXMEM=""
 fi
 
-EA_OPTS=""
-if [ "$ENABLE_ASSERTIONS" == "true" ]
-then
-   EA_OPTS="-ea"
-fi
-
 if [ -d $PHENOTIPS_HOME/tomcat/webapps ]
 then
      GC_FIFO=/usr/local/ingenuity/logs/$APPNAME/gc.out
 
            if [[ "$PERMGENMAXMEM" != "" ]]
            then
-	      JAVA_OPTS="$EA_OPTS $JAVA_VM $DEBUG_OPTS -Xms$MINMEM -Xmx$MAXMEM -XX:MaxPermSize=$PERMGENMAXMEM -XX:+CMSClassUnloadingEnabled -XX:+UseConcMarkSweepGC -Xloggc:$GC_FIFO -verbose:gc -XX:+PrintGCDateStamps -Duser.timezone="America/Los_Angeles" -Dsun.io.useCanonCaches=false -Djava.awt.headless=true $USER_REGION_OPT $USER_LANG_OPT"
+	      JAVA_OPTS="$JAVA_VM $DEBUG_OPTS -Xms$MINMEM -Xmx$MAXMEM -XX:MaxPermSize=$PERMGENMAXMEM -XX:+CMSClassUnloadingEnabled -XX:+UseConcMarkSweepGC -Xloggc:$GC_FIFO -verbose:gc -XX:+PrintGCDateStamps -Duser.timezone="America/Los_Angeles" -Dsun.io.useCanonCaches=false -Djava.awt.headless=true $USER_REGION_OPT $USER_LANG_OPT"
            fi
 
 
