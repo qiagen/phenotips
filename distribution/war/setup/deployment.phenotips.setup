@@ -11,8 +11,8 @@ function fixGraylogProps
 
 function fixExtensionRepo
 {
-        EXT_REPO=`echo $EXT_REPO | sed '\//\\//g'`
-        sed "s/extension.repositories=maven-central:maven:dummy/"extension.repositories=maven-central:maven:$EXT_REPO"/g;s/extension.repositories=maven-phenotips:maven:dummy/"extension.repositories=maven-phenotips:maven:$EXT_REPO"/g;extension.repositories=phenotips.org:xwiki:dummy/"extension.repositories=phenotips.org:xwiki:$EXT_REPO"/g" $1 > $1.new
+        EXT_REPO=`echo $EXT_REPO | sed 's/\//\\\\\//g'`
+        sed "s/extension.repositories=maven-central:maven:dummy/"extension.repositories=maven-central:maven:$EXT_REPO"/g;s/extension.repositories=maven-phenotips:maven:dummy/"extension.repositories=maven-phenotips:maven:$EXT_REPO"/g;s/extension.repositories=phenotips.org:xwiki:dummy/"extension.repositories=phenotips.org:xwiki:$EXT_REPO"/g" $1 > $1.new
         rm $1 -f
         mv $1.new $1
 
