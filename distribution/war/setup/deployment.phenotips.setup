@@ -18,10 +18,16 @@ function fixExtensionRepo
 
 }
 
+function clearStoreDirs
+{
+	rm -rf $STORE_DIR/cache $STORE_DIR/extension
+
+}
+
 _HOST=`hostname`
 _ENV=`cat setup/phenotipsbuild-config.properties | grep "^graylog_env" | cut -d'=' -f2`
 EXT_REPO=`cat setup/phenotipsbuild-config.properties | grep "^extension_repo" | cut -d'=' -f2`
-
+STORE_DIR=`cat web/WEB-INF/xwiki.properties | grep "^environment.permanentDirectory" | cut -d'=' -f2`
 PATH=$PATH:/opt/sfw/bin
 export PATH
 
@@ -69,6 +75,8 @@ then
    mv $releasedir/web/WEB-INF/lib/ecj-*.jar $releasedir/tomcat/lib/ > /dev/null 2> /dev/null
 fi
 fixExtensionRepo web/WEB-INF/xwiki.properties
+[ "$STORE_DIR" != "" ] && clearStoreDir
+
 # remove logs...
 mkdir -p /usr/local/ingenuity/logs/phenotips/backup
 rm -rf /usr/local/ingenuity/logs/phenotips/backup/*
