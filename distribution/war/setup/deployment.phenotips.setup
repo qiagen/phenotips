@@ -24,6 +24,13 @@ function clearStoreDirs
 
 }
 
+function addDocTypeLine
+{
+        sed -e "s/--><hibernate-configuration/-->\n<\!DOCTYPE hibernate-configuration PUBLIC \"-\/\/Hibernate\/Hibernate Configuration DTD\/\/EN\" \"http:\/\/www.hibernate.org\/dtd\/hibernate-configuration-3.0.dtd\">\n<hibernate-configuration/g" $1 > $1.tmp2
+mv $1.tmp2 $1
+
+}
+
 _HOST=`hostname`
 _ENV=`cat $releasedir/setup/phenotipsbuild-config.properties | grep "^graylog_env" | cut -d'=' -f2`
 EXT_REPO=`cat $releasedir/setup/phenotipsbuild-config.properties | grep "^extension_repo" | cut -d'=' -f2`
@@ -74,7 +81,11 @@ then
    rm $releasedir/tomcat/lib/ecj-*.jar > /dev/null 2> /dev/null
    mv $releasedir/web/WEB-INF/lib/ecj-*.jar $releasedir/tomcat/lib/ > /dev/null 2> /dev/null
 fi
+
 fixExtensionRepo $releasedir/web/WEB-INF/xwiki.properties
+
+ddDocTypeLine $releasedir/web/WEB-INF/hibernate.cfg.xml
+
 [ "$STORE_DIR" != "" ] && clearStoreDirs
 
 # remove logs...
