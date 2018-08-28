@@ -84,7 +84,7 @@ fi
 
 fixExtensionRepo $releasedir/web/WEB-INF/xwiki.properties
 
-ddDocTypeLine $releasedir/web/WEB-INF/hibernate.cfg.xml
+addDocTypeLine $releasedir/web/WEB-INF/hibernate.cfg.xml
 
 [ "$STORE_DIR" != "" ] && clearStoreDirs
 
