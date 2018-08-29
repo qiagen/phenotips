@@ -1,16 +1,27 @@
 <assembly>
+  <id>tar</id>
 <formats>
   <format>tar.gz</format>
 </formats>
+  <includeBaseDirectory>false</includeBaseDirectory>
 <fileSets>
   <fileSet>
+    <directory>target/phenotips-war/</directory>
+    <outputDirectory>web</outputDirectory>
     <includes>
-      <include>target/phenotips-war-*/*</include>
+      <include>**</include>
     </includes>
   </fileSet>
   <fileSet>
     <directory>setup</directory>
     <outputDirectory>setup</outputDirectory>
+    <includes>
+      <include>*</include>
+    </includes>
+  </fileSet>
+  <fileSet>
+    <directory>bin</directory>
+    <outputDirectory>bin</outputDirectory>
     <includes>
       <include>*</include>
     </includes>

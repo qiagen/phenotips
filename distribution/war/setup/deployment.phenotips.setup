@@ -9,10 +9,32 @@ function fixGraylogProps
 
 }
 
+function fixExtensionRepo
+{
+        EXT_REPO=`echo $EXT_REPO | sed 's/\//\\\\\//g'`
+        sed "s/extension.repositories=maven-central:maven:dummy/"extension.repositories=maven-central:maven:$EXT_REPO"/g;s/extension.repositories=maven-phenotips:maven:dummy/"extension.repositories=maven-phenotips:maven:$EXT_REPO"/g;s/extension.repositories=phenotips.org:xwiki:dummy/"extension.repositories=phenotips.org:xwiki:$EXT_REPO"/g" $1 > $1.new
+        rm $1 -f
+        mv $1.new $1
+
+}
+
+function clearStoreDirs
+{
+	rm -rf $STORE_DIR/cache $STORE_DIR/extension
+
+}
+
+function addDocTypeLine
+{
+        sed -e "s/--><hibernate-configuration/-->\n<\!DOCTYPE hibernate-configuration PUBLIC \"-\/\/Hibernate\/Hibernate Configuration DTD\/\/EN\" \"http:\/\/www.hibernate.org\/dtd\/hibernate-configuration-3.0.dtd\">\n<hibernate-configuration/g" $1 > $1.tmp2
+mv $1.tmp2 $1
+
+}
+
 _HOST=`hostname`
-_ENV=`cat web/WEB-INF/classes/phenotipsbuild-config.properties | grep "^graylog_env" | cut -d'=' -f2`
-
-
+_ENV=`cat $releasedir/setup/phenotipsbuild-config.properties | grep "^graylog_env" | cut -d'=' -f2`
+EXT_REPO=`cat $releasedir/setup/phenotipsbuild-config.properties | grep "^extension_repo" | cut -d'=' -f2`
+STORE_DIR=`cat $releasedir/web/WEB-INF/xwiki.properties | grep "^environment.permanentDirectory" | cut -d'=' -f2`
 PATH=$PATH:/opt/sfw/bin
 export PATH
 
@@ -59,6 +81,12 @@ then
    rm $releasedir/tomcat/lib/ecj-*.jar > /dev/null 2> /dev/null
    mv $releasedir/web/WEB-INF/lib/ecj-*.jar $releasedir/tomcat/lib/ > /dev/null 2> /dev/null
 fi
+
+fixExtensionRepo $releasedir/web/WEB-INF/xwiki.properties
+
+addDocTypeLine $releasedir/web/WEB-INF/hibernate.cfg.xml
+
+[ "$STORE_DIR" != "" ] && clearStoreDirs
 
 # remove logs...
 mkdir -p /usr/local/ingenuity/logs/phenotips/backup

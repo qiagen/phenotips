@@ -1228,3 +1228,11 @@
   background-color: #fdfeff;
   padding-bottom: 0.5em;
 }
+
+/* ===========================================
+ * CUSTOMIZATIONS
+ */
+
+#action-close {
+  display: none;
+}
