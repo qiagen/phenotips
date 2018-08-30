@@ -8,9 +8,9 @@
   <fileSet>
     <directory>target/phenotips-war/</directory>
     <outputDirectory>web</outputDirectory>
-    <includes>
-      <include>**</include>
-    </includes>
+    <excludes>
+      <exclude>META-INF</exclude>
+    </excludes>
   </fileSet>
   <fileSet>
     <directory>setup</directory>
