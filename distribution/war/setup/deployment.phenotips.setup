@@ -93,7 +93,7 @@ fixExtensionRepo $releasedir/web/WEB-INF/xwiki.properties
 
 addDocTypeLine $releasedir/web/WEB-INF/hibernate.cfg.xml
 
-copyMetaInfFiles
+#copyMetaInfFiles
 
 [ "$STORE_DIR" != "" ] && clearStoreDirs
 
