@@ -1233,6 +1233,6 @@
  * CUSTOMIZATIONS
  */
 
-#action-close {
+#action-close, #action-save {
   display: none;
 }
