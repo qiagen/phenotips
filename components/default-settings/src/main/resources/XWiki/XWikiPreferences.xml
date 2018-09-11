@@ -3073,7 +3073,8 @@ $xwiki.ssx.use($xwiki.getSpacePreference('colorTheme'))</meta>
       <showinformation>0</showinformation>
     </property>
     <property>
-      <skin>PhenoTips.Skin</skin>
+      <!--<skin>PhenoTips.Skin</skin>-->
+      <skin>PhenoTips.EmbeddableSkin</skin>
     </property>
     <property>
       <smtp_port/>
