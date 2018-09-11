@@ -336,7 +336,9 @@ define([
             };
             var _createMenuItem = function(data) {
                 var buttonIcon = new Element('span', {'class' : 'fa fa-' + data.icon});
-                var mi = new Element('span', {'id' : 'action-' + data.key, 'class' : 'field-no-user-select menu-item ' + data.key}).insert(buttonIcon).insert(' ').insert(data.label);
+                //var mi = new Element('span', {'id' : 'action-' + data.key, 'class' : 'field-no-user-select menu-item ' + data.key}).insert(buttonIcon).insert(' ').insert(data.label);
+                //customized. moved label to title hover
+	            var mi = new Element('span', {'id' : 'action-' + data.key, 'class' : 'field-no-user-select menu-item ' + data.key, 'title' : data.label}).insert(buttonIcon).insert(' ');
                 if (data.callback && typeof(data.callback) == 'function') {
                     mi.observe('click', function() {
                         data.callback(mi, buttonIcon);
