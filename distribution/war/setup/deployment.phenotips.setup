@@ -31,6 +31,13 @@ mv $1.tmp2 $1
 
 }
 
+function copyMetaInfFiles
+{
+        cp -p $releasedir/setup/MANIFEST.MF $releasedir/web/META-INF/
+        cp -pr $releasedir/setup/phenotips-war $releasedir/web/META-INF/maven/org.phenotips/
+
+}
+
 _HOST=`hostname`
 _ENV=`cat $releasedir/setup/phenotipsbuild-config.properties | grep "^graylog_env" | cut -d'=' -f2`
 EXT_REPO=`cat $releasedir/setup/phenotipsbuild-config.properties | grep "^extension_repo" | cut -d'=' -f2`
@@ -85,6 +92,8 @@ fi
 fixExtensionRepo $releasedir/web/WEB-INF/xwiki.properties
 
 addDocTypeLine $releasedir/web/WEB-INF/hibernate.cfg.xml
+
+#copyMetaInfFiles
 
 [ "$STORE_DIR" != "" ] && clearStoreDirs
 

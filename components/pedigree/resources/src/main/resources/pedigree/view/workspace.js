@@ -241,6 +241,8 @@ define([
          * Creates the menu on the top
          *
          * @method generateTopMenu
+         *
+         * customized
          */
         generateTopMenu: function() {
             var menu = new Element('div', {'class' : 'editor-menu'});
@@ -282,22 +284,24 @@ define([
                     items: [
                         { key : 'undo',   label : 'Undo', icon : 'undo'},
                         { key : 'redo',   label : 'Redo', icon : 'repeat'},
-                        { key : 'layout', label : 'Automatic layout', icon : 'sitemap'}
+                        { key : 'layout', label : 'Auto Layout', icon : 'sitemap'},
+	                    { key : 'number', label : 'Renumber', icon : 'sort-numeric-asc'}
                     ]
                   }, {
                     name : 'print',
                     items: [
-                        { key : 'print',  label : 'Print', icon : 'print'},
+                        { key : 'print',  label : 'Print', icon : 'print'}
                     ]
                   },{
-                      name : 'more',
+                      name : 'templates',
                       items: [
-                          { key : 'more', label : 'More...', icon : 'caret-down', callback: hideShowSubmenu} //sort-desc
+	                      { key : 'templates', label : 'Templates', icon : 'copy'}
                     ]
                   }, {
                     name : 'output',
                     items: [
                         { key : 'save',      label : 'Save', icon : 'check'},
+	                    { key : 'import',    label : 'Import', icon : 'upload'},
                         { key : 'export',    label : 'Export', icon : 'download'},
                         { key : 'close',     label : 'Close', icon : 'sign-out'}
                     ]
@@ -305,6 +309,7 @@ define([
             }
 
             var secondaryMenuItems = [];
+            /* Customized: moved these items to above nav
             if (!editor.isUnsupportedBrowser()) {
                 secondaryMenuItems = [{
                     name : 'edit',
@@ -320,6 +325,7 @@ define([
                     ]
                   }];
             }
+            */
 
             var _createSubmenu = function(data) {
                 var submenu = new Element('div', {'class' : data.name + '-actions action-group'});
@@ -330,7 +336,9 @@ define([
             };
             var _createMenuItem = function(data) {
                 var buttonIcon = new Element('span', {'class' : 'fa fa-' + data.icon});
-                var mi = new Element('span', {'id' : 'action-' + data.key, 'class' : 'field-no-user-select menu-item ' + data.key}).insert(buttonIcon).insert(' ').insert(data.label);
+                //var mi = new Element('span', {'id' : 'action-' + data.key, 'class' : 'field-no-user-select menu-item ' + data.key}).insert(buttonIcon).insert(' ').insert(data.label);
+                //customized. moved label to title hover
+	            var mi = new Element('span', {'id' : 'action-' + data.key, 'class' : 'field-no-user-select menu-item ' + data.key, 'title' : data.label}).insert(buttonIcon).insert(' ');
                 if (data.callback && typeof(data.callback) == 'function') {
                     mi.observe('click', function() {
                         data.callback(mi, buttonIcon);
