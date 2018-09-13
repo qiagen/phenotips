@@ -98,6 +98,8 @@ public class XWikiServletResponse implements XWikiResponse
             }
         }
         this.httpStatus = SC_FOUND;
+        LOGGER.info("xwiki.servlet.response.hostname.matching is set to", String.valueOf(hostnameMatching));
+        LOGGER.info("redirecting to", redirect);
         this.response.sendRedirect(redirect);
     }
 
