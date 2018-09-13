@@ -18,9 +18,11 @@
 package com.xpn.xwiki.web;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.Collection;
 import java.util.Locale;
+import java.util.Properties;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.Cookie;
@@ -68,6 +70,17 @@ public class XWikiServletResponse implements XWikiResponse
     @Override
     public void sendRedirect(String redirect) throws IOException
     {
+        InputStream input = this.getClass().getClassLoader().getResourceAsStream("xwiki.properties");
+        if (input == null) {
+            System.out.println("Unable to find the xwiki.properties file");
+            return;
+        }
+
+        Properties prop = new Properties();
+        prop.load(input);
+
+        boolean hostnameMatching = Boolean.valueOf(prop.getProperty("xwiki.servlet.response.hostname.matching"));
+
         if (StringUtils.isBlank(redirect)) {
             // Nowhere to go to
             return;
@@ -76,7 +89,8 @@ public class XWikiServletResponse implements XWikiResponse
             LOGGER.warn("Possible HTTP Response Splitting attack, attempting to redirect to [{}]", redirect);
             return;
         }
-        if (redirect.matches("[a-z0-9]+://.*")) {
+
+        if (redirect.matches("[a-z0-9]+://.*") && hostnameMatching) {
             // Full URL, check that the hostname matches
             if (!redirect.matches("[a-z0-9]+://" + Utils.getContext().getRequest().getServerName() + "[:/].*")) {
                 LOGGER.warn("Possible phishing attack, attempting to redirect to [{}]", redirect);

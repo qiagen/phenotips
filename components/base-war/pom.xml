@@ -400,6 +400,7 @@ extension.repositories=phenotips.org:xwiki:dummy
 rendering.transformations=macro
 #activeinstalls.pingURL=https://stats.phenotips.org
 #activeinstalls.ipFetchURL=https://phenotips.org/get/Stats/Id
+xwiki.servlet.response.hostname.matching=true
                 </xwikiPropertiesAdditionalProperties>
               </properties>
             </configuration>
