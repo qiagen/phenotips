@@ -45,7 +45,6 @@ function createPropCopy
         [ -f $releasedir/web/WEB-INF/classes/xwiki.properties ] && cp -p $releasedir/web/WEB-INF/classes/xwiki.properties $releasedir/web/WEB-INF/xwiki.properties 
 }
 
-createPropCopy
 
 _HOST=`hostname`
 _ENV=`cat $releasedir/setup/phenotipsbuild-config.properties | grep "^graylog_env" | cut -d'=' -f2`
@@ -102,6 +101,7 @@ fi
 fixExtensionRepo $releasedir/web/WEB-INF/classes/xwiki.properties
 
 addDocTypeLine $releasedir/web/WEB-INF/hibernate.cfg.xml
+createPropCopy
 
 
 [ "$STORE_DIR" != "" ] && clearStoreDirs
