@@ -80,17 +80,22 @@ public class XWikiServletResponse implements XWikiResponse
         prop.load(input);
 
         boolean hostnameMatching = Boolean.valueOf(prop.getProperty("xwiki.servlet.response.hostname.matching"));
+        LOGGER.info("xwiki.servlet.response.hostname.matching is set to", String.valueOf(hostnameMatching));
+        LOGGER.info("redirecting to", redirect);
 
         if (StringUtils.isBlank(redirect)) {
             // Nowhere to go to
+            System.out.println("redirect is blank");
             return;
         }
         if (StringUtils.containsAny(redirect, '\r', '\n')) {
             LOGGER.warn("Possible HTTP Response Splitting attack, attempting to redirect to [{}]", redirect);
+            System.out.println("redirect contains more than 1 line");
             return;
         }
 
         if (redirect.matches("[a-z0-9]+://.*") && hostnameMatching) {
+            System.out.println("redirect matches and hostnameMatching set to true");
             // Full URL, check that the hostname matches
             if (!redirect.matches("[a-z0-9]+://" + Utils.getContext().getRequest().getServerName() + "[:/].*")) {
                 LOGGER.warn("Possible phishing attack, attempting to redirect to [{}]", redirect);
@@ -98,8 +103,6 @@ public class XWikiServletResponse implements XWikiResponse
             }
         }
         this.httpStatus = SC_FOUND;
-        LOGGER.info("xwiki.servlet.response.hostname.matching is set to", String.valueOf(hostnameMatching));
-        LOGGER.info("redirecting to", redirect);
         this.response.sendRedirect(redirect);
     }
 
