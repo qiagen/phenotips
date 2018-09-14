@@ -72,7 +72,7 @@ public class XWikiServletResponse implements XWikiResponse
     {
         InputStream input = this.getClass().getClassLoader().getResourceAsStream("xwiki.properties");
         if (input == null) {
-            System.out.println("Unable to find the xwiki.properties file");
+            //System.out.println("Unable to find the xwiki.properties file");
             return;
         }
 
@@ -80,24 +80,19 @@ public class XWikiServletResponse implements XWikiResponse
         prop.load(input);
 
         boolean hostnameMatching = Boolean.valueOf(prop.getProperty("xwiki.servlet.response.hostname.matching"));
-        LOGGER.warn("xwiki.servlet.response.hostname.matching is set to", String.valueOf(hostnameMatching));
-        LOGGER.warn("redirecting to", redirect);
-        System.out.println("xwiki.servlet.response.hostname.matching is set to :" +String.valueOf(hostnameMatching));
-        System.out.println("redirecting to :" +redirect);
+        //LOGGER.warn("xwiki.servlet.response.hostname.matching is set to", String.valueOf(hostnameMatching));
+        //LOGGER.warn("redirecting to", redirect);
 
         if (StringUtils.isBlank(redirect)) {
             // Nowhere to go to
-            System.out.println("redirect is blank");
             return;
         }
         if (StringUtils.containsAny(redirect, '\r', '\n')) {
             LOGGER.warn("Possible HTTP Response Splitting attack, attempting to redirect to [{}]", redirect);
-            System.out.println("redirect contains more than 1 line");
             return;
         }
 
         if (redirect.matches("[a-z0-9]+://.*") && hostnameMatching) {
-            System.out.println("redirect matches and hostnameMatching set to true");
             // Full URL, check that the hostname matches
             if (!redirect.matches("[a-z0-9]+://" + Utils.getContext().getRequest().getServerName() + "[:/].*")) {
                 LOGGER.warn("Possible phishing attack, attempting to redirect to [{}]", redirect);

@@ -38,6 +38,13 @@ function copyMetaInfFiles
 
 }
 
+function createPropSymlink
+{
+
+        rm -f $releasedir/web/WEB-INF/xwiki.properties 
+        [ -f $releasedir/web/WEB-INF/classes/xwiki.properties ] && ln -s $releasedir/web/WEB-INF/classes/xwiki.properties $releasedir/web/WEB-INF/xwiki.properties 
+}
+
 _HOST=`hostname`
 _ENV=`cat $releasedir/setup/phenotipsbuild-config.properties | grep "^graylog_env" | cut -d'=' -f2`
 EXT_REPO=`cat $releasedir/setup/phenotipsbuild-config.properties | grep "^extension_repo" | cut -d'=' -f2`
@@ -93,7 +100,7 @@ fixExtensionRepo $releasedir/web/WEB-INF/xwiki.properties
 
 addDocTypeLine $releasedir/web/WEB-INF/hibernate.cfg.xml
 
-#copyMetaInfFiles
+createPropSymlink
 
 [ "$STORE_DIR" != "" ] && clearStoreDirs
 
