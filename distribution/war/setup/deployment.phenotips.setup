@@ -45,10 +45,12 @@ function createPropSymlink
         [ -f $releasedir/web/WEB-INF/classes/xwiki.properties ] && ln -s $releasedir/web/WEB-INF/classes/xwiki.properties $releasedir/web/WEB-INF/xwiki.properties 
 }
 
+createPropSymlink
+
 _HOST=`hostname`
 _ENV=`cat $releasedir/setup/phenotipsbuild-config.properties | grep "^graylog_env" | cut -d'=' -f2`
 EXT_REPO=`cat $releasedir/setup/phenotipsbuild-config.properties | grep "^extension_repo" | cut -d'=' -f2`
-STORE_DIR=`cat $releasedir/web/WEB-INF/xwiki.properties | grep "^environment.permanentDirectory" | cut -d'=' -f2`
+STORE_DIR=`cat $releasedir/web/WEB-INF/classes/xwiki.properties | grep "^environment.permanentDirectory" | cut -d'=' -f2`
 PATH=$PATH:/opt/sfw/bin
 export PATH
 
@@ -96,11 +98,11 @@ then
    mv $releasedir/web/WEB-INF/lib/ecj-*.jar $releasedir/tomcat/lib/ > /dev/null 2> /dev/null
 fi
 
-fixExtensionRepo $releasedir/web/WEB-INF/xwiki.properties
+
+fixExtensionRepo $releasedir/web/WEB-INF/classes/xwiki.properties
 
 addDocTypeLine $releasedir/web/WEB-INF/hibernate.cfg.xml
 
-createPropSymlink
 
 [ "$STORE_DIR" != "" ] && clearStoreDirs
 
