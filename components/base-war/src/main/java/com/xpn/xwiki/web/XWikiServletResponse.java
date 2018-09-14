@@ -82,6 +82,8 @@ public class XWikiServletResponse implements XWikiResponse
         boolean hostnameMatching = Boolean.valueOf(prop.getProperty("xwiki.servlet.response.hostname.matching"));
         LOGGER.info("xwiki.servlet.response.hostname.matching is set to", String.valueOf(hostnameMatching));
         LOGGER.info("redirecting to", redirect);
+        System.out.println("xwiki.servlet.response.hostname.matching is set to", +String.valueOf(hostnameMatching));
+        System.out.println("redirecting to", +redirect);
 
         if (StringUtils.isBlank(redirect)) {
             // Nowhere to go to
