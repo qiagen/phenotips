@@ -38,14 +38,14 @@ function copyMetaInfFiles
 
 }
 
-function createPropSymlink
+function createPropCopy
 {
 
         rm -f $releasedir/web/WEB-INF/xwiki.properties 
-        [ -f $releasedir/web/WEB-INF/classes/xwiki.properties ] && ln -s $releasedir/web/WEB-INF/classes/xwiki.properties $releasedir/web/WEB-INF/xwiki.properties 
+        [ -f $releasedir/web/WEB-INF/classes/xwiki.properties ] && cp -p $releasedir/web/WEB-INF/classes/xwiki.properties $releasedir/web/WEB-INF/xwiki.properties 
 }
 
-createPropSymlink
+createPropCopy
 
 _HOST=`hostname`
 _ENV=`cat $releasedir/setup/phenotipsbuild-config.properties | grep "^graylog_env" | cut -d'=' -f2`
